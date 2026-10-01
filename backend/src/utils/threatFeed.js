@@ -10,6 +10,13 @@ const CATEGORIES = ["Malware", "Hameçonnage", "DDoS", "Vulnérabilité", "Fuite
 const SEVERITIES = ["Critique", "Haute", "Moyenne", "Faible"];
 const COUNTRIES = ["Russie", "Chine", "États-Unis", "Nigéria", "Pays-Bas", "Brésil"];
 const randomFrom = (arr, seed) => arr[seed % arr.length];
+function classify(title) {
+  const t = title.toLowerCase();
+  if (/ransomware|zero-day|actively exploited|critical|\brce\b/.test(t)) return "Critique";
+  if (/exploit|backdoor|breach|malware|vulnerabilit|cve|botnet/.test(t)) return "Haute";
+  if (/phishing|patch|update|campaign/.test(t)) return "Moyenne";
+  return "Faible";
+}
 
 function generateMockFeed(count = 24) {
   const now = Date.now();
@@ -37,7 +44,7 @@ export async function fetchThreatFeed() {
       for (const entry of feed.items.slice(0, 8)) {
         collected.push({
           id: entry.guid || entry.link, title: entry.title, source: feed.title || src.url,
-          category: src.category, severity: randomFrom(SEVERITIES, collected.length),
+          category: src.category, severity: classify(entry.title),
           link: entry.link, publishedAt: entry.isoDate || new Date().toISOString(),
         });
       }
