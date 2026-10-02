@@ -9,6 +9,7 @@ import IocSearch from "./pages/IocSearch.jsx";
 import ThreatFeeds from "./pages/ThreatFeeds.jsx";
 import Alerts from "./pages/Alerts.jsx";
 import Users from "./pages/Users.jsx";
+import Security from "./pages/Security.jsx";
 
 function PrivateRoute({ children }) {
   const { user } = useAuth();
@@ -33,6 +34,7 @@ export default function App() {
         <Route path="ioc" element={<IocSearch />} />
         <Route path="feeds" element={<ThreatFeeds />} />
         <Route path="alerts" element={<Alerts />} />
+        <Route path="security" element={<Security />} />
         <Route path="users" element={<AdminRoute><Users /></AdminRoute>} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
